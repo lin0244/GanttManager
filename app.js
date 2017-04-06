@@ -1,3 +1,5 @@
+'use strict';
+var http = require('http');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -10,6 +12,8 @@ var users = require('./routes/users');
 
 var mongoose = require('mongoose');
 var app = express();
+
+var server = http.createServer(app);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -50,5 +54,11 @@ mongoose.connect('mongodb://localhost/ganttmanager', (error) => {
       console.log(error);
     }
 })
+
+
+server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
+  var addr = server.address();
+  console.log("Chat server listening at", addr.address + ":" + addr.port);
+});
 
 module.exports = app;
