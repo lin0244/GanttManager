@@ -22,8 +22,8 @@ let projectSchema = mongoose.model('Projects', {
   },
 
   workingHours: {
-    start: Time,
-    end: Time
+    start: Date,
+    end: Date
   },
 
   task: [{
@@ -55,59 +55,69 @@ let projectSchema = mongoose.model('Projects', {
 });
 
 
+let exp = ()=>{};
 
-module.exports = () => {
-  function getAllProjects(callback) {
-    projectSchema.find((err, data) => {
-      if (err)
-        console.log(err);
-      else
-        callback(data);
-    });
-  }
-  
-  function getAllProjectsName(callback) {
-    projectSchema.find({}, {_id:true, _name:true},(err, data) => {
-      if (err)
-        console.log(err);
-      else
-        callback(data);
-    });
-  }
+exp.getAllProjects = (callback) => {
+  projectSchema.find((err, data) => {
+    if (err)
+      console.log(err);
+    else
+      callback(data);
+  });
+};
 
-  function getAllMyProjects(n, callback) {
-    projectSchema.find({resources:[{name : n}]}, (err, data) => {
-      if (err)
-        console.log(err);
-      else  
-        callback(data);
-    });
-  }
-  
-  function getByID(id, callback){
-    projectSchema.findById(id,(err,data)=>{
-      if (err)
-        console.log(err);
-      else  
-        callback(data);
-    });
-  }
-  
-  function deleteProject(i, callback){
-    projectSchema.delete({_id:i},(err,data)=>{
-      if (err)
-        console.log(err);
-      else  
-        callback(data);
-    });
-  }
-  
-  function updateProject(pro, callback){
-    projectSchema.update({_id:pro._id}, pro, {upsert : true}, (err,data)=>{
-      if (err)
-        console.log(err);
-      else  
-        callback(data);
-    });
-  }
+exp.getAllProjectsName = (callback) => {
+  projectSchema.find({}, {
+    _id: true,
+    _name: true
+  }, (err, data) => {
+    if (err)
+      console.log(err);
+    else
+      callback(data);
+  });
 }
+
+exp.getAllMyProjects = (n, callback) => {
+  projectSchema.find({
+    resources: [{
+      name: n
+    }]
+  }, (err, data) => {
+    if (err)
+      console.log(err);
+    else
+      callback(data);
+  });
+}
+
+exp.getProjectById = (id, callback) => {
+  projectSchema.findById(id, (err, data) => {
+    if (err)
+      console.log(err);
+    else
+      callback(data);
+  });
+}
+
+exp.deleteProject = (i,callback) => {
+  projectSchema.delete({
+    _id: i
+  }, (err, data) => {
+    if (err)
+      console.log(err);
+    else
+      callback(data);
+  });
+}
+
+exp.updateProject = (pro, callback) => {
+  projectSchema.update( { _id: pro._id  }, pro, { upsert: true }, (err, data) => {
+    if (err)
+      console.log(err);
+    else
+      callback(data);
+  });
+}
+
+module.exports = exp;
