@@ -20,13 +20,13 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  projectModel.getProjectById(req.body.project,(data)=>{
+  projectModel.createProject(req.body.project,(data)=>{
       res.send(data);
   });
 });
 
 router.put('/', function(req, res, next) {
-  projectModel.getProjectById(req.body.project,(data)=>{
+  projectModel.updateProject(req.body.project,(data)=>{
       res.send(data);
   });
 });
