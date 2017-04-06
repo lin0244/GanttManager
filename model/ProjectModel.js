@@ -65,6 +65,15 @@ module.exports = () => {
         callback(data);
     });
   }
+  
+  function getAllProjectsName(callback) {
+    projectSchema.find({}, {_id:true, _name:true},(err, data) => {
+      if (err)
+        console.log(err);
+      else
+        callback(data);
+    });
+  }
 
   function getAllMyProjects(n, callback) {
     projectSchema.find({resources:[{name : n}]}, (err, data) => {
