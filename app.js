@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+var mongoose = require('mongoose');
 var app = express();
 
 // view engine setup
@@ -43,5 +44,11 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+mongoose.connect('mongodb://localhost/ganttmanager', (error) => {
+    if(error) {
+      console.log(error);
+    }
+})
 
 module.exports = app;
