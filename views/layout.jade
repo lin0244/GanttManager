@@ -10,12 +10,13 @@ html(ng-app="app")
         link(rel="stylesheet", href="/javascripts/lib/angular-gantt/assets/angular-gantt-plugins.css")
         link(rel='stylesheet', href='/stylesheets/style.css')
         script(src="/javascripts/lib/angular/angular.js")
+        script(src="/javascripts/lib/angular-route/angular-route.js")
         script(src="/javascripts/lib/angular-aria/angular-aria.js")
         script(src="/javascripts/lib/angular-animate/angular-animate.js")
         script(src="/javascripts/lib/angular-material/angular-material.js")
         script(src="/javascripts/lib/angular-gantt/assets/angular-gantt.js")
         script(src="/javascripts/lib/angular-gantt/assets/angular-gantt-plugins.js")
-        script(src="javascripts/app.js")
+        script(src="/javascripts/app.js")
 
         script(src="/javascripts/controllers/menuController.js")
         script(src="/javascripts/controllers/projectController.js")
@@ -25,4 +26,5 @@ html(ng-app="app")
             h1 GanttProject
         #wrapper
             block menu
+                include menu/index
             block content

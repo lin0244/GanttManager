@@ -51,6 +51,11 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.get('/project/:name', function (req, res)
+{ var name = req.params.name;
+    res.render('project/' + name);
+});
+
 mongoose.connect('mongodb://localhost/ganttmanager', (error) => {
     if(error) {
       console.log(error);

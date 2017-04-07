@@ -8,13 +8,9 @@
                     span Accueil
             li
                 a Projets
-                ul.submenu
+                ul.submenu(ng-repeat="project in allProjectsName")
                     li
-                        a(href='projects') Projet 1
-                    li
-                        a(href='#') Projet 2
-                    li
-                        a(href='#') Projet 3
+                        a(href="/project/{{project._id}}") {{project.name}}
             li
                 a(href='#')
                     span Utilisateur

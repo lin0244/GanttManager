@@ -3,13 +3,11 @@
 
 extends ../layout
 
-block menu
-    include ../menu/index
+
 block content
-    #page-content-wrapper
+    #page-content-wrapper(ng-controller='projectController')
         .page-content.inset
             .row
                 .col-md-12.well
-                    legend#anch1 Anchor 1
-                    p
-                        | Test !
+                    legend(ng-model='project.name') {{name}}
+                    input(ng-model='project.id', type='hidden', value=projectId)

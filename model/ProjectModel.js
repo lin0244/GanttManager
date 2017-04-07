@@ -78,7 +78,7 @@ exp.getAllProjects = (callback) => {
 exp.getAllProjectsName = (callback) => {
   projectSchema.find({}, {
     _id: true,
-    _name: true
+    name: true
   }, (err, data) => {
     if (err)
       console.log(err);
