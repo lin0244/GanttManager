@@ -40,7 +40,6 @@ app.use(passport.session());
 app.use('/', index);
 app.use('/users', users);
 app.use('/login', auth);
-
 app.use('/project', projects);
 
 // catch 404 and forward to error handler
@@ -61,7 +60,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-mongoose.connect('mongodb://localhost/ganttmanager', (error) => {
+mongoose.createConnection('mongodb://localhost/ganttmanager', (error) => {
     if(error) {
       console.log(error);
     }
@@ -71,5 +70,16 @@ server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
   var addr = server.address();
   console.log("GanttManager listening at ", addr.address + ":" + addr.port);
 });
+
+//Cron pour vider les Tokens du Serveur - Tous les soirs à Minuit
+var CronJob = require('cron').CronJob;
+var job = new CronJob('00 00 00 * * *', () => {
+    auth.deleteTokens();
+  },
+  null,
+  true, /* Start the job right now */
+  'Europe/Paris'
+);
+
 
 module.exports = app;

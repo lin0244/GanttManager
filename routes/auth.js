@@ -1,5 +1,9 @@
+/**
+ * Created by Elessar 06/04/2017 
+ * 
+ * Auth - Controller des Authentification côté Serveur
+ */
 'use strict'
-
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
@@ -10,9 +14,9 @@ const LocalStrategy = require('passport-local').Strategy;
 const mongoose = require ('mongoose');
 const userModel = require('../model/UserModel');
 
+//Tokens : Liste des Token fournis par le serveurs aux utilsateurs.
 let tokens = {};
 
-/* GET users listing. */
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -21,9 +25,11 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
+//Stratégie d'Authentification pour PassPort.
 passport.use(new LocalStrategy(function(username, password, done) {
   process.nextTick(function() {
-    userModel.findOne({'username': username, }, function(err, user) {
+    console.log(username);
+    userModel.findOne({'username': username}, function(err, user) {
       if (err) {
         console.log('Error');
         return done(err);
@@ -34,15 +40,21 @@ passport.use(new LocalStrategy(function(username, password, done) {
         return done(null, false);
       }
 
+      //Si le mot de passe de l'utilisateur ne correspond pas, on retourne false.
       if (!user.validPassword(password)) {
         console.log('Password is wrong');
         return done(null, false);
       }
       
+      //Tout est Ok à ce point là. On vérifie si la personne n'est pas déjà Authentifiée. Si elle est, on ne crée pas de nouveau Token.
       if(tokens[username] == null) {
         let token = crypto.randomBytes(16).toString('hex');
         
         tokens[username] = token;
+        
+        console.log("New Auth Accepted");
+      } else {
+        console.log("Already Auth");
       }
 
       return done(null, user);
@@ -50,27 +62,26 @@ passport.use(new LocalStrategy(function(username, password, done) {
   });
 }));
 
-
-router.post('/', passport.authenticate('local', {
-  failureRedirect : '/loginFailed'
-}), (req,res) => {
-  res.json(tokens[req.user.username]);
+//On récupère la requête Post d'Authentification. Si l'authentification est bonne, on retourne le Token côté client. On stock ensuite ce token dans les Cookies de l'utilisateur.
+router.post('/auth', passport.authenticate('local'), (req, res, next) => {
+    res.json(tokens[req.user.username]);
 });
 
+//On récupère la requête Post de déconnexion. On supprime le Token de l'utilisateur qui se déconnecte.
 router.post('/disconnect', (req,res) => {
   let username = req.body.username;
   
   delete tokens[username];
 });
 
-
-router.get('/register', (req, res, next) => {
+//On récupère la requête Post d'enregistrement. On crée un utilisateur avec le Username, Mot de passe et Email.
+router.post('/register', (req, res, next) => {
   var user = new userModel();
 
-  user.username = req.body.username;
-  user.email = req.body.email;
+  user.username = req.body.params.username;
+  user.email = req.body.params.email;
 
-  user.setPassword(req.body.password);
+  user.setPassword(req.body.params.password);
   
   user.save(function (err) {
      if(err) {
@@ -81,5 +92,10 @@ router.get('/register', (req, res, next) => {
      }
   });
 });
+
+
+router.deleteTokens = () => {
+  tokens = {};
+}
 
 module.exports = router;

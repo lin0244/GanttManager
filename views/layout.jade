@@ -1,9 +1,5 @@
 doctype html
-<<<<<<< HEAD
-html
-=======
 html(ng-app="app")
->>>>>>> origin/menu
     head
         title= title
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u", crossorigin="anonymous")
@@ -20,9 +16,11 @@ html(ng-app="app")
         script(src="/javascripts/lib/angular-gantt/assets/angular-gantt.js")
         script(src="/javascripts/lib/angular-gantt/assets/angular-gantt-plugins.js")
         script(src="javascripts/app.js")
+        script(src="/javascripts/lib/angular-cookies/angular-cookies.js")
 
         script(src="/javascripts/controllers/menuController.js")
         script(src="/javascripts/controllers/projectController.js")
+        script(src="/javascripts/controllers/loginController.js")
 
     body
         .horizontalbar

@@ -30,44 +30,6 @@ router.get('/', (req,res) => {
 });
 
 
-router.post('/addUser', (req,res) => {
-    console.log(req.body);
-    let user = new userModel({
-          username : req.body.username,
-          email : req.body.email
-    });
-    
-    user.setPassword(req.body.password);
-    
-    console.log(user);
-    
-    user.save(function (err) {
-       if(err) {
-           console.log(err);
-       } else {
-           res.status(200);
-           console.log('Insert de :' + user);
-       }
-    });
-});
-
-
-router.post('/deleteUser', (req,res) => {
-    let usernameUser = req.body.params;
-    
-    let heroDelete = userModel.findOne({username : usernameUser});
-    
-    heroDelete.remove((err) => {
-       if(err) {
-           console.log(err);
-       } else {
-           res.status(200);
-           console.log('Delete de :' + usernameUser);
-       }
-    });
-});
-
-
 router.post('/updateUser', (req,res) => {
     userModel.findOneAndUpdate({id : req.body.params.id}, req.body.params ,(err) => {
        if(err) {
