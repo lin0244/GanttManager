@@ -12,7 +12,7 @@ angular.module("app").controller("loginController", function ($scope, $http, $co
 
     let urlBase = window.location.href;
     urlBase = urlBase.split('#')[0];
-    alert(urlBase);
+
     //On vérifie au début de l'application, si la personne possède un Token de Session dans ses Cookies.
     //Si il possède un Token, c'est qu'il s'est connecté durant la période de validité de sa Session.
     if($cookies['tokenSession'] != null) {
@@ -27,8 +27,6 @@ angular.module("app").controller("loginController", function ($scope, $http, $co
             'username' : $scope.username,
             'password': $scope.password
         };
-    
-        alert(urlBase);
     
         $http.post(urlBase + 'login/auth',auth).then(function successCallback(response) 
         {
@@ -62,7 +60,7 @@ angular.module("app").controller("loginController", function ($scope, $http, $co
         };
     
         //Envoie de la requête    
-        $http.post(window.location.href + 'login/register', user).then(function successCallback(response) 
+        $http.post(urlBase + 'login/register', user).then(function successCallback(response) 
         {
 
         }, errorCallback);
