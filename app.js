@@ -60,11 +60,15 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
 mongoose.createConnection('mongodb://localhost/ganttmanager', (error) => {
-    if(error) {
-      console.log(error);
-    }
-})
+  app.get('/project/:name', function (req, res) { 
+    var name = req.params.name;
+    res.render('project/' + name);
+    })
+  }
+);
+
 
 server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
   var addr = server.address();
