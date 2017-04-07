@@ -13,6 +13,7 @@ var auth = require('./routes/auth');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var projects = require('./routes/projects');
 
 var mongoose = require('mongoose');
 var app = express();
@@ -40,6 +41,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/login', auth);
 
+app.use('/project', projects);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

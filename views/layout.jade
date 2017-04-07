@@ -1,13 +1,29 @@
 doctype html
+<<<<<<< HEAD
 html
+=======
+html(ng-app="app")
+>>>>>>> origin/menu
     head
         title= title
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u", crossorigin="anonymous")
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp", crossorigin="anonymous")
+        link(rel="stylesheet", href="/javascripts/lib/angular/angular-csp.css")
+        link(rel="stylesheet", href="/javascripts/lib/angular-material/angular-material.css")
+        link(rel="stylesheet", href="/javascripts/lib/angular-gantt/assets/angular-gantt.css")
+        link(rel="stylesheet", href="/javascripts/lib/angular-gantt/assets/angular-gantt-plugins.css")
         link(rel='stylesheet', href='/stylesheets/style.css')
-        script(src="https://code.jquery.com/jquery-3.2.0.min.js")
-        script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js", integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa", crossorigin="anonymous")
-        script(src="/javascript/menu.js")
+        script(src="/javascripts/lib/angular/angular.js")
+        script(src="/javascripts/lib/angular-aria/angular-aria.js")
+        script(src="/javascripts/lib/angular-animate/angular-animate.js")
+        script(src="/javascripts/lib/angular-material/angular-material.js")
+        script(src="/javascripts/lib/angular-gantt/assets/angular-gantt.js")
+        script(src="/javascripts/lib/angular-gantt/assets/angular-gantt-plugins.js")
+        script(src="javascripts/app.js")
+
+        script(src="/javascripts/controllers/menuController.js")
+        script(src="/javascripts/controllers/projectController.js")
+
     body
         .horizontalbar
             h1 GanttProject
