@@ -8,8 +8,7 @@ const Schema= mongoose.Schema;
 
 let roomSchema = new Schema({
     id:{type : Number, required: true, unique:true},
-    projetName:{type:String, required:true,unique:true },
-    name:{type:String,required:true} 
+    projetName:{type:String, required:true,unique:true }
 });
 
 // creation du modele 

@@ -47,7 +47,7 @@ router.post('/', (req, res, next) => {
 
 });
 
-
+// methode 
 router.post('/add', (req, res, next) => {
   let chatSaved = req.body.chatModel;
   chatModel.save((err, chatSaved) => {
@@ -68,11 +68,10 @@ router.get('/setup',(req,res,next)=>{
   let roomData = [{
       id: 1,
       projetName: 'projectx',
-      name: 'Room1'
+  
     }, {
       id: 2,
       projetName: 'raphael',
-      name: 'Room2'
 
     },
 
