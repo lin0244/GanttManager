@@ -8,7 +8,7 @@ const roomModel = require('../model/RoomModel');
 const chatModel = require('../model/ChatModel');
 const path = require('path');
 
-router.use(express.static(path.resolve(__dirname, 'client')));
+router.use(express.static(path.resolve(__dirname, 'views')));
 
 
 
@@ -31,9 +31,9 @@ router.get('/', (req, res) => {
 });
 
 
-// New room 
+/*// New room 
 router.post('/', (req, res, next) => {
-  let room = req.body.room;
+  let room = new roomModel();
   roomModel.save((err, room) => {
     if (err) {
       console.log(err);
@@ -45,7 +45,25 @@ router.post('/', (req, res, next) => {
 
   });
 
+});*/
+
+
+router.post('/', (id,name,next) => {
+  let room = new roomModel();
+  room.save((err, room) => {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      console.log(room);
+    }
+
+  });
+
 });
+
+
+
 
 // methode 
 router.post('/add', (req, res, next) => {
@@ -78,7 +96,6 @@ router.get('/setup',(req,res,next)=>{
     {
       id: 3,
       projetName: 'testProjet',
-      name: 'Room6'
 
     }
 
@@ -89,18 +106,16 @@ router.get('/setup',(req,res,next)=>{
     //Create an instance of the chat model
     let newRoom = new roomModel(roomData[r]);
     //Call save to insert the chat
-    newRoom.save((err, docs) => {
+    newRoom.save((err) => {
       if (err) {
         console.log(err);
-      }
-      else {
-        res.json(docs);
       }
 
     });
   }
 
-  
+    console.log('initialization ok');
+  res.json(roomData);
   
   
   
@@ -115,7 +130,6 @@ router.get('/setup',(req,res,next)=>{
 
 
 router.get('/msgs', (req, res, next) => {
-  console.log(req.query.room);
   chatModel.find({
     'room': req.query.room.name.toLowerCase()
   }).exec((err, msgs) => {
@@ -123,7 +137,7 @@ router.get('/msgs', (req, res, next) => {
       console.log(err);
     }
     else {
-      console.log('raph dans les messages')
+
       res.json(msgs);
     }
     //Send
@@ -131,6 +145,10 @@ router.get('/msgs', (req, res, next) => {
   });
 
 });
+
+
+
+
 
 router.get('/setupmsgs', (req, res, next) => {
   //Array of chat data. Each object properties must match the schema object properties
@@ -142,13 +160,15 @@ router.get('/setupmsgs', (req, res, next) => {
     content: 'Hi',
     ressource: 'Chris',
     room: 'raph'
-  }, {
+  }, 
+  {
     id: 3,
     created: new Date(),
     content: 'Hello',
     ressource: 'Obinna',
     room: 'laravel'
-  }, {
+  },
+  {
     id: 4,
     created: new Date(),
     content: 'Ait',
@@ -170,19 +190,16 @@ router.get('/setupmsgs', (req, res, next) => {
     //Create an instance of the chat model
     let newChat = new chatModel(chatData[c]);
     //Call save to insert the chat
-    newChat.save((err, docs) => {
+    newChat.save((err) => {
       if (err) {
         console.log(err);
       }
-      else {
-        res.json(docs);
-      }
-
     });
+    
+  
   }
   console.log('initialization ok');
-
-
+  res.json(chatData);
 
 });
 

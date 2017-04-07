@@ -1,7 +1,7 @@
 
-'use strict';
 
-var app = angular.module('ganntmanager', ['ngMaterial', 'ngAnimate', 'ngMdIcons', 'btford.socket-io'])
+//var app = angular.module('app', ['ngRoute']);
+var app = angular.module('app', [])
 var serverBaseUrl = 'http://localhost:3000';
 app.factory('socket', function (socketFactory) {
     var myIoSocket = io.connect(serverBaseUrl);
