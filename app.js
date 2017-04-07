@@ -1,29 +1,30 @@
 'use strict';
-var http = require('http');
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const http = require('http');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const index = require('./routes/index');
+const users = require('./routes/users');
+const auth = require('./routes/auth');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const mongoose = require('mongoose');
+const app = express();
+const server = http.createServer(app);
+const io= require('socket.io').listen(server);
+const projects = require('./routes/projects')(app,io);
+const CronJob = require('cron').CronJob;
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var auth = require('./routes/auth');
-
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var projects = require('./routes/projects');
-
-var mongoose = require('mongoose');
-var app = express();
-
-var server = http.createServer(app);
-
+const rooms=require('./routes/room');
+const socketio= require('./routes/socketio')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
+app.set('view engine', 'jade');
+app.use(express.static(__dirname + '/room'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -39,12 +40,13 @@ app.use(passport.session());
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/rooms',rooms);
 app.use('/login', auth);
 app.use('/project', projects);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
@@ -69,15 +71,14 @@ mongoose.createConnection('mongodb://localhost/ganttmanager', (error) => {
   }
 );
 
-
 server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
-  var addr = server.address();
+  let addr = server.address();
   console.log("GanttManager listening at ", addr.address + ":" + addr.port);
 });
 
 //Cron pour vider les Tokens du Serveur - Tous les soirs à Minuit
-var CronJob = require('cron').CronJob;
-var job = new CronJob('00 00 00 * * *', () => {
+
+let job = new CronJob('00 00 00 * * *', () => {
     auth.deleteTokens();
   },
   null,

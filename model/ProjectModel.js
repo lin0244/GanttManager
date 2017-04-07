@@ -2,13 +2,9 @@
 
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/ganttmanager', (error) => {
-  if (error) {
-    console.log(error);
-  }
-})
-
+//
 let projectSchema = mongoose.model('Projects', {
+  serviceName: String,
   name: String,
   desc: String,
   daysOff: {
@@ -66,8 +62,28 @@ exp.createProject = (pro, callback) => {
   });
 }
 
+exp.createExternalProject = (pro, callback) => {
+  for(let p in pro.projects)
+    p.serviceName=pro.serviceName;
+  projectSchema.insert(pro.projects, (err, data) => {
+    if (err)
+      console.log(err);
+    else
+      callback(data);
+  });
+}
+
 exp.getAllProjects = (callback) => {
   projectSchema.find((err, data) => {
+    if (err)
+      console.log(err);
+    else
+      callback(data);
+  });
+};
+
+exp.getAllProjectsByService = (service,callback) => {
+  projectSchema.find({serviceName:service}, {serviceName:false}, (err, data) => {
     if (err)
       console.log(err);
     else
@@ -101,7 +117,7 @@ exp.getAllMyProjects = (n, callback) => {
 }
 
 exp.getProjectById = (id, callback) => {
-  projectSchema.findById(id, (err, data) => {
+  projectSchema.findById(id, {serviceName:false},(err, data) => {
     if (err)
       console.log(err);
     else
