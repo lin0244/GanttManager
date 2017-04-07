@@ -16,8 +16,9 @@ router.get('/all', function(req, res, next) {
 
 /* GET projects listing. */
 router.get('/:id', function(req, res, next) {
-    console.log(req.params.id);
-    res.render('project/index', { projectId: req.params.id });
+    projectModel.getProjectById(req.params.id,(data)=>{
+        res.render('project/index', { project: data });
+    });
 });
 
 router.get('/info/:id', function(req, res, next) {

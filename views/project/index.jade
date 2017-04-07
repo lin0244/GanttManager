@@ -10,4 +10,7 @@ block content
             .row
                 .col-md-12.well
                     legend(ng-model='project.name') {{name}}
-                    input(ng-model='project.id', type='hidden', value=projectId)
+                    input(ng-model='projectId', type='hidden', value=projectId)
+                    div
+                        = project
+                    div
