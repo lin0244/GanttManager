@@ -10,6 +10,9 @@ angular.module("app").controller("loginController", function ($scope, $http, $co
     
     $scope.isAuth = false;
 
+    let urlBase = window.location.href;
+    urlBase = urlBase.split('#')[0];
+    alert(urlBase);
     //On vérifie au début de l'application, si la personne possède un Token de Session dans ses Cookies.
     //Si il possède un Token, c'est qu'il s'est connecté durant la période de validité de sa Session.
     if($cookies['tokenSession'] != null) {
@@ -25,7 +28,9 @@ angular.module("app").controller("loginController", function ($scope, $http, $co
             'password': $scope.password
         };
     
-        $http.post(window.location.href + 'login/auth',auth).then(function successCallback(response) 
+        alert(urlBase);
+    
+        $http.post(urlBase + 'login/auth',auth).then(function successCallback(response) 
         {
             //On crée la date d'expiration des Cookies. (Lendemain à 00h)
             let expireDate = new Date();
@@ -37,6 +42,7 @@ angular.module("app").controller("loginController", function ($scope, $http, $co
             $cookies.put('username' , $scope.username, {'expires': expireDate});
             $cookies.put('tokenSession' , response.data, {'expires': expireDate});
             
+            $scope.isAuth = true;
         }, errorCallback);
         
         function errorCallback () 

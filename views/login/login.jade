@@ -1,0 +1,36 @@
+//
+   Created by Elessar on 06/04/2017.
+div
+  .omb_login
+      h3.omb_authTitle Login
+      span.help-block
+        .row.omb_row-sm-offset-3
+          .col-xs-12.col-sm-6
+              .input-group
+                span.input-group-addon
+                  i.fa.fa-user
+                input.form-control(type='text', name='username', placeholder='Username', ng-model='username')
+              span.help-block
+              .input-group
+                span.input-group-addon
+                  i.fa.fa-lock
+                input.form-control(type='password', name='password', placeholder='Password',ng-model='password')
+              span.help-block                
+              button.btn.btn-lg.btn-primary.btn-block(type='submit', ng-click="submitAuth()") Login
+        .row.omb_row-sm-offset-3.omb_loginOr
+          .col-xs-12.col-sm-6
+            hr.omb_hrOr
+            | Utiliser un réseau social ?
+        .row.omb_row-sm-offset-3.omb_socialButtons
+          .col-xs-4.col-sm-2
+            a.btn.btn-lg.btn-block.omb_btn-facebook(href='#')
+              i.fa.fa-facebook.visible-xs
+              span.hidden-xs Facebook
+          .col-xs-4.col-sm-2
+            a.btn.btn-lg.btn-block.omb_btn-twitter(href='#')
+              i.fa.fa-twitter.visible-xs
+              span.hidden-xs Twitter
+          .col-xs-4.col-sm-2
+            a.btn.btn-lg.btn-block.omb_btn-google(href='#')
+              i.fa.fa-google-plus.visible-xs
+              span.hidden-xs Google+
