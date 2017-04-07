@@ -37,4 +37,8 @@ router.delete('/:id', function(req, res, next) {
   });
 });
 
+function synWS(io, data){
+  io.emit('sendUpdate', data);
+}
+
 module.exports = router;
