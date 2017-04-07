@@ -1,20 +1,20 @@
 //
    Created by leinox on 06/04/2017.
-#sidebar-wrapper
+#sidebar-wrapper(ng-controller="menuController")
     nav
         ul.sidebar-nav.nav
             li.active
                 a(href='/')
                     span Accueil
             li
-                    a Projets
-                    ul.submenu
-                        li
-                            a(href='projects') Projet 1
-                        li
-                            a(href='#') Projet 2
-                        li
-                            a(href='#') Projet 3
+                a Projets
+                ul.submenu
+                    li
+                        a(href='projects') Projet 1
+                    li
+                        a(href='#') Projet 2
+                    li
+                        a(href='#') Projet 3
             li
                 a(href='#')
                     span Utilisateur
