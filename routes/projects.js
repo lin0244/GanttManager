@@ -15,6 +15,10 @@ client.on('connect', () => {
 
   client.emit('needHelp');
 });
+
+client.on('info',(data)=>{
+  console.log(data);
+})
  
 const serviceName="qwertyuiop";
 
@@ -70,7 +74,7 @@ client.on('errorOnProjectUpdate',(data)=>{
 
 client.on('projectUpdated',(data)=>{
   for(let d in data){
-    projectModel.createProject(d,(err,data)=>{
+    projectModel.createExternalProject(d,(err,data)=>{
       if(err)
         console.log(err)
     });
