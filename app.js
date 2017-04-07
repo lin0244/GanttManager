@@ -18,8 +18,6 @@ const io= require('socket.io').listen(server);
 const projects = require('./routes/projects')(app,io);
 const CronJob = require('cron').CronJob;
 
-const server = http.createServer(app);
-
 const rooms=require('./routes/room');
 const socketio= require('./routes/socketio')
 // view engine setup

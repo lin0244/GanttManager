@@ -6,8 +6,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const projectModel = require('../model/ProjectModel');
 
-
-<<<<<<< HEAD
 const socket = require('socket.io-client');
 let sockets=[];
 let client = socket.connect('https://c9.seefox.fr', {
@@ -22,14 +20,14 @@ client.on('connect', () => {
 
   client.emit('needHelp');
 });
-=======
->>>>>>> 3df3f72c658ca5f04367375f6b86a332be86f0ac
+
 
 client.on('info', (data) => {
   console.log(data);
 })
 
 module.exports = (router, io) => {
+  
   io.on('connect',(socket)=>{
     let temp={};
     temp.socket=socket;
