@@ -57,6 +57,15 @@ let projectSchema = mongoose.model('Projects', {
 
 let exp = ()=>{};
 
+exp.createProject = (pro, callback) => {
+  projectSchema.insert(pro, (err, data) => {
+    if (err)
+      console.log(err);
+    else
+      callback(data);
+  });
+}
+
 exp.getAllProjects = (callback) => {
   projectSchema.find((err, data) => {
     if (err)
@@ -100,10 +109,8 @@ exp.getProjectById = (id, callback) => {
   });
 }
 
-exp.deleteProject = (i,callback) => {
-  projectSchema.delete({
-    _id: i
-  }, (err, data) => {
+exp.updateProject = (pro, callback) => {
+  projectSchema.update( { _id: pro._id  }, pro, { upsert: true }, (err, data) => {
     if (err)
       console.log(err);
     else
@@ -111,8 +118,10 @@ exp.deleteProject = (i,callback) => {
   });
 }
 
-exp.updateProject = (pro, callback) => {
-  projectSchema.update( { _id: pro._id  }, pro, { upsert: true }, (err, data) => {
+exp.deleteProject = (i,callback) => {
+  projectSchema.delete({
+    _id: i
+  }, (err, data) => {
     if (err)
       console.log(err);
     else
