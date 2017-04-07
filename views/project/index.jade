@@ -1,0 +1,16 @@
+//
+   Created by leino on 06/04/2017.
+
+extends ../layout
+
+
+block content
+    #page-content-wrapper(ng-controller='projectController')
+        .page-content.inset
+            .row
+                .col-md-12.well
+                    legend(ng-model='project.name') {{name}}
+                    input(ng-model='projectId', type='hidden', value=projectId)
+                    div
+                        = project
+                    div
