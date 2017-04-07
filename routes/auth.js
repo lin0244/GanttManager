@@ -3,15 +3,16 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-
+const crypto = require('crypto');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const mongoose = require ('mongoose');
 const userModel = require('../model/UserModel');
 
-/* GET users listing. */
+let tokens = {};
 
+/* GET users listing. */
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -37,6 +38,12 @@ passport.use(new LocalStrategy(function(username, password, done) {
         console.log('Password is wrong');
         return done(null, false);
       }
+      
+      if(tokens[username] == null) {
+        let token = crypto.randomBytes(16).toString('hex');
+        
+        tokens[username] = token;
+      }
 
       return done(null, user);
     });
@@ -45,23 +52,22 @@ passport.use(new LocalStrategy(function(username, password, done) {
 
 
 router.post('/', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/'
-  })
-);
-
-router.get('/loginFailure', function(req, res, next) {
-  res.send('Failed to authenticate');
+  failureRedirect : '/loginFailed'
+}), (req,res) => {
+  res.json(tokens[req.user.username]);
 });
 
-router.get('/loginSuccess', function(req, res, next) {
-  res.send('Successfully authenticated');
+router.post('/disconnect', (req,res) => {
+  let username = req.body.username;
+  
+  delete tokens[username];
 });
 
-router.get('/register', function(req, res, next) {
+
+router.get('/register', (req, res, next) => {
   var user = new userModel();
 
-  user.username = req.body.name;
+  user.username = req.body.username;
   user.email = req.body.email;
 
   user.setPassword(req.body.password);

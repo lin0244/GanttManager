@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-
+const auth = require('../routes/auth');
 const mongoose = require ('mongoose');
 const userModel = require('../model/UserModel');
 
