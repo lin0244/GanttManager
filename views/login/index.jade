@@ -1,0 +1,27 @@
+//
+   Created by Elessar on 06/04/2017.
+div(ng-controller="loginController")
+  div
+    label Username:
+             
+    input(type='text', name='username', ng-model="username")
+             
+    br
+         
+  div
+    label Password:
+             
+    input(type='password', name='password', ng-model="password")
+         
+  div
+    label Email:
+             
+    input(type='text', name='email', ng-model="email")
+         
+  div
+  
+    button(type="button", class="btn btn-default", data-dismiss="modal", ng-click="submitAuth()")
+      label Connexion
+      
+    button(type="button", class="btn btn-default", data-dismiss="modal", ng-click="submitRegister()")
+      label Créer Compte

@@ -24,6 +24,10 @@ const serviceName="qwertyuiop";
 
 /* GET projects listing. */
 router.get('/', function(req, res, next) {
+    res.render('project/index', { title: 'Express' });
+});
+
+router.get('/all', function(req, res, next) {
   projectModel.getAllProjectsName((data)=>{
       res.send(data);
   });
