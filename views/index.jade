@@ -1,5 +1,20 @@
 extends layout
 
+block menu
+    include menu/menu
 block content
-  h1= title
-  p Welcome to #{title}
+    #page-content-wrapper
+        .page-content.inset
+            .row
+                .jumbotron.text-center
+                    h1= title
+                    p
+                        | Un nouveau site pour gérer vos projets avec Gantt
+                    p
+            .row
+                .col-md-12.well
+                    legend#anch1 Anchor 1
+                    p
+                        | Connectez vous !
+                    p
+                        | Ici le module de connexion / création de compte
