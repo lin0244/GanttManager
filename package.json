@@ -6,8 +6,10 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "angular-cookies": "^1.6.4",
     "body-parser": "~1.16.0",
     "cookie-parser": "~1.4.3",
+    "cron": "^1.2.1",
     "debug": "~2.6.0",
     "docco": "^0.7.0",
     "express": "~4.14.1",
@@ -15,6 +17,10 @@
     "less-middleware": "~2.2.0",
     "mongoose": "^4.9.3",
     "morgan": "~1.7.0",
+    "socket.io": "^1.7.3",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "request": "^2.81.0",
     "serve-favicon": "~2.3.2"
   }
 }

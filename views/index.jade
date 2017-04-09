@@ -11,10 +11,14 @@ block content
                     p(ng-controller="projectController")
                         | Un nouveau site pour gérer vos projets avec Gantt
                     p
-            .row
-                .col-md-12.well
-                    legend#anch1 Anchor 1
-                    p
-                        | Connectez vous !
-                    p
-                        | Ici le module de connexion / création de compte
+            div(ng-controller="loginController")
+                div(ng-show="!isAuth")
+                    .row
+                        .col-md-12.well
+                            .col-md-6
+                                p
+                                    include login/login
+                            .col-md-6
+                                p
+                                    include login/register
+                    
