@@ -3,18 +3,18 @@
 const mongoose = require('mongoose');
 
 //
-let projectSchema = mongoose.model('Projects', {
-  serviceName: String,
+const projectSchema = mongoose.model('Projects', {
+  nameService: String,
   name: String,
   desc: String,
   daysOff: {
-    M: Boolean,
-    T: Boolean,
-    W: Boolean,
-    T: Boolean,
-    F: Boolean,
-    S: Boolean,
-    S: Boolean
+    Mo: Boolean,
+    Tu: Boolean,
+    We: Boolean,
+    Th: Boolean,
+    Fr: Boolean,
+    Sa: Boolean,
+    Su: Boolean
   },
 
   workingHours: {
@@ -40,7 +40,7 @@ let projectSchema = mongoose.model('Projects', {
   resources: [{
     name: String,
     cost: Number,
-    type: String
+    typeR: String
   }],
 
   milestones: [{
@@ -51,26 +51,35 @@ let projectSchema = mongoose.model('Projects', {
 });
 
 
-let exp = ()=>{};
+let exp = () => {};
 
 exp.createProject = (pro, callback) => {
-  projectSchema.insert(pro, (err, data) => {
-    if (err)
+  let tmp = new projectSchema(pro);
+    console.log("youhou");
+  tmp.save((err) => {
+    console.log("youhou");
+    if (err){
+      console.log("error");
       console.log(err);
-    else
-      callback(data);
+    }
+    else{
+      console.log("yo");
+      callback("flex");
+    }
   });
 }
 
 exp.createExternalProject = (pro, callback) => {
-  for(let p in pro.projects)
-    p.serviceName=pro.serviceName;
-  projectSchema.insert(pro.projects, (err, data) => {
-    if (err)
-      console.log(err);
-    else
-      callback(data);
-  });
+  for (let p in pro.projects) {
+    p.serviceName = pro.serviceName;
+    let ps = new projectSchema(p);
+    ps.save((err, data) => {
+      if (err)
+        console.log(err);
+      else
+        callback(data);
+    });
+  }
 }
 
 exp.getAllProjects = (callback) => {
@@ -82,8 +91,12 @@ exp.getAllProjects = (callback) => {
   });
 };
 
-exp.getAllProjectsByService = (service,callback) => {
-  projectSchema.find({serviceName:service}, {serviceName:false}, (err, data) => {
+exp.getAllProjectsByService = (service, callback) => {
+  projectSchema.find({
+    serviceName: service
+  }, {
+    serviceName: false
+  }, (err, data) => {
     if (err)
       console.log(err);
     else
@@ -92,6 +105,7 @@ exp.getAllProjectsByService = (service,callback) => {
 };
 
 exp.getAllProjectsName = (callback) => {
+  console.log('allpname');
   projectSchema.find({}, {
     _id: true,
     name: true
@@ -117,7 +131,9 @@ exp.getAllMyProjects = (n, callback) => {
 }
 
 exp.getProjectById = (id, callback) => {
-  projectSchema.findById(id, {serviceName:false},(err, data) => {
+  projectSchema.findById(id, {
+    serviceName: false
+  }, (err, data) => {
     if (err)
       console.log(err);
     else
@@ -126,7 +142,11 @@ exp.getProjectById = (id, callback) => {
 }
 
 exp.updateProject = (pro, callback) => {
-  projectSchema.update( { _id: pro._id  }, pro, { upsert: true }, (err, data) => {
+  projectSchema.update({
+    _id: pro._id
+  }, pro, {
+    upsert: true
+  }, (err, data) => {
     if (err)
       console.log(err);
     else
@@ -134,7 +154,7 @@ exp.updateProject = (pro, callback) => {
   });
 }
 
-exp.deleteProject = (i,callback) => {
+exp.deleteProject = (i, callback) => {
   projectSchema.delete({
     _id: i
   }, (err, data) => {

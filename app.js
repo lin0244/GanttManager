@@ -14,13 +14,12 @@ const LocalStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
 const app = express();
 const server = http.createServer(app);
-const io= require('socket.io').listen(server);
-const projects = require('./routes/projects')(app,io);
+require('./routes/projects')(app);
 const CronJob = require('cron').CronJob;
 
-const rooms=require('./routes/room');
-const socketio= require('./routes/socketio')
-// view engine setup
+const rooms = require('./routes/room');
+const socketio = require('./routes/socketio')
+  // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 
 app.set('view engine', 'jade');
@@ -29,7 +28,9 @@ app.use(express.static(__dirname + '/room'));
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -40,9 +41,9 @@ app.use(passport.session());
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/rooms',rooms);
+app.use('/rooms', rooms);
 app.use('/login', auth);
-app.use('/project', projects);
+//app.use('/project', projects);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -64,14 +65,13 @@ app.use(function(err, req, res, next) {
 
 
 mongoose.createConnection('mongodb://localhost/ganttmanager', (error) => {
-  app.get('/project/:name', function (req, res) { 
-    var name = req.params.name;
-    res.render('project/' + name);
-    })
-  }
-);
+  if (error)
+    console.log(error);
+  else
+    mongoose.connect('mongodb://localhost/ganttmanager');
+});
 
-server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
+server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function() {
   let addr = server.address();
   console.log("GanttManager listening at ", addr.address + ":" + addr.port);
 });
