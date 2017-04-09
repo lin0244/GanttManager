@@ -1,7 +1,7 @@
 
 
 //var app = angular.module('app', ['ngRoute']);
-var app = angular.module('app', [])
+var app = angular.module('app');
 var serverBaseUrl = 'http://localhost:3000';
 app.factory('socket', function (socketFactory) {
     var myIoSocket = io.connect(serverBaseUrl);
