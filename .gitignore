@@ -95,5 +95,7 @@ typings/
 # dotenv environment variables file
 .env
 
+### MongoDB ###
+data/
 
 # End of https://www.gitignore.io/api/node,angular,less

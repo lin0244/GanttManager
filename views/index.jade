@@ -1,5 +1,24 @@
 extends layout
 
+block menu
+    include menu/index
 block content
-  h1= title
-  p Welcome to #{title}
+    #page-content-wrapper
+        .page-content.inset
+            .row
+                .jumbotron.text-center
+                    h1= title
+                    p(ng-controller="projectController")
+                        | Un nouveau site pour gérer vos projets avec Gantt
+                    p
+            div(ng-controller="loginController")
+                div(ng-show="!isAuth")
+                    .row
+                        .col-md-12.well
+                            .col-md-6
+                                p
+                                    include login/login
+                            .col-md-6
+                                p
+                                    include login/register
+                    
