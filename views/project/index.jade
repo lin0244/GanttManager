@@ -6,7 +6,7 @@ extends ../layout
 
 block content
     #page-content-wrapper(ng-controller='projectController')
-        .page-content.inset
+        .page-content.inset(ng-show='AuthService.getAuth()')
             .row
                 .col-md-12.well
                     legend(ng-model='project.name')= project.name

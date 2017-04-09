@@ -1,7 +1,10 @@
 /**
  * Created by leino on 06/04/2017.
  */
-angular.module("app").controller("projectController", function ($scope, $http) {
+angular.module("app").controller("projectController", function ($scope, $http, AuthService) {
+    
+    $scope.AuthService = AuthService;
+    
     $scope.$evalAsync(function () {
         console.log($scope.project);
         $scope.data = convertServerToBrowser();
@@ -103,9 +106,9 @@ angular.module("app").controller("projectController", function ($scope, $http) {
         }
 
         function convertTaskGroupToTasks() {
-            tasks = [];
-            for(i = 0; i < $scope.project.groupTask.length; i++) {
-                task = {
+            let tasks = [];
+            for(let i = 0; i < $scope.project.groupTask.length; i++) {
+                let task = {
                     name: $scope.project.groupTask[i].name,
                     from: $scope.project.groupTask[i].start,
                     to: $scope.project.groupTask[i].end
@@ -116,9 +119,9 @@ angular.module("app").controller("projectController", function ($scope, $http) {
         }
 
         function convertMilestonesToTask() {
-            tasks = [];
-            for(i = 0; i < $scope.project.milestones.length; i++) {
-                task = {
+            let tasks = [];
+            for(let i = 0; i < $scope.project.milestones.length; i++) {
+                let task = {
                     name: $scope.project.milestones[i].name,
                     from: $scope.project.milestones[i].date,
                     to: $scope.project.milestones[i].date
