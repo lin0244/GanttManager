@@ -1,7 +1,8 @@
 
 
-//var app = angular.module('app', ['ngRoute']);
-var app = angular.module('app');
+
+
+
 var serverBaseUrl = 'http://localhost:3000';
 app.factory('socket', function (socketFactory) {
     var myIoSocket = io.connect(serverBaseUrl);
@@ -12,7 +13,9 @@ app.factory('socket', function (socketFactory) {
 
     return socket;
 });
-app.controller('MainCtrl', function ($scope, $mdDialog, socket, $http) {
+
+
+app.controller('roomCtrl', function ($scope, $mdDialog, socket, $http) {
     $scope.messages = [];
     $scope.room = "";
 
