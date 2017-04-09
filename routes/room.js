@@ -23,12 +23,24 @@ router.get('/', (req, res) => {
       console.log(err);
     }
     else {
-      res.status(200);
+      res.render('index', { title: 'Room' });
+      console.log('raph ok');
+    }
+  });
+});
+
+router.get('/all', (req, res) => {
+  roomModel.find({}, (err, docs) => {
+    if (err) {
+      console.log(err);
+    }
+    else {
       res.json(docs);
       console.log('raph ok');
     }
   });
 });
+
 
 
 /*// New room 
