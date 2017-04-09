@@ -9,8 +9,14 @@ block content
         .page-content.inset
             .row
                 .col-md-12.well
-                    legend(ng-model='project.name') {{name}}
-                    input(ng-model='projectId', type='hidden', value=projectId)
-                    div
-                        = project
-                    div
+                    legend(ng-model='project.name')= project.name
+                    button(ng-click='debug()') debug
+                    - var prj = JSON.stringify(project)
+                    div(ng-init="project=#{prj}")
+                    input(ng-model='project._id', type='text', value=project._id)
+                    div= project
+                .col-md-12.well
+                    div(gantt, data='data')
+                        gantt-table
+                        gantt-movable
+                        gantt-tooltips
