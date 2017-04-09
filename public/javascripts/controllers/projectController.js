@@ -11,6 +11,16 @@ angular.module("app").controller("projectController", function ($scope, $http) {
         console.log($scope.project);
     };
 
+    $scope.drawTaskFactory = function() {
+        var newTask = {
+            id: 5,
+            name: 'New Task'
+            // Other properties
+        }
+
+        return newTask;
+    }
+
     $scope.data = [{name: 'Milestones', height: '3em', sortable: false, classes: 'gantt-row-milestone', color: '#45607D', tasks: [
         // Dates can be specified as string, timestamp or javascript date object. The data attribute can be used to attach a custom object
         {name: 'Kickoff', color: '#93C47D', from: '2013-10-07T09:00:00', to: '2013-10-07T10:00:00', data: 'Can contain any custom data or object'},
@@ -80,9 +90,14 @@ angular.module("app").controller("projectController", function ($scope, $http) {
         function convertServerToBrowser() {
             return [{
                 id: $scope.project._id,
+                name: 'Milestones',
+                content: 'Milestones',
+                height: '3em', sortable: false, classes: 'gantt-row-milestone',
+                tasks: convertMilestonesToTask()
+            }, {
+                id: $scope.project._id,
                 name: $scope.project.name,
                 content: $scope.project.desc,
-                height: '3em', sortable: false, classes: 'gantt-row-milestone', color: '#45607D',
                 tasks: convertTaskGroupToTasks()
             }];
         }
@@ -94,6 +109,19 @@ angular.module("app").controller("projectController", function ($scope, $http) {
                     name: $scope.project.groupTask[i].name,
                     from: $scope.project.groupTask[i].start,
                     to: $scope.project.groupTask[i].end
+                };
+                tasks.push(task);
+            }
+            return tasks;
+        }
+
+        function convertMilestonesToTask() {
+            tasks = [];
+            for(i = 0; i < $scope.project.milestones.length; i++) {
+                task = {
+                    name: $scope.project.milestones[i].name,
+                    from: $scope.project.milestones[i].date,
+                    to: $scope.project.milestones[i].date
                 };
                 tasks.push(task);
             }
