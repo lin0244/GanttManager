@@ -6,14 +6,14 @@ header.navbar.navbar-inverse.navbar-custom(ng-controller="loginController")
         li
             a(href='/')
                 span GanttManager
-    ul.nav.navbar-nav.navbar-right(ng-show="isAuth")
+    ul.nav.navbar-nav.navbar-right(ng-show="AuthService.getAuth()")
         li
             a(href='#')
                 span Utilisateur
         li
             a(ng-click="submitDisconnect()")
                 span Déconnexion
-    div.nav.navbar-nav.navbar-right(ng-show="!isAuth")
+    div.nav.navbar-nav.navbar-right(ng-show="!AuthService.getAuth()")
         .input-group.input-custom
                 input.form-control(type='text', name='username', placeholder='Username', ng-model='username')
             span.help-block
