@@ -18,12 +18,22 @@ client.on('connect', () => {
   console.log('connected')
 
   client.emit('needHelp');
+  client.emit('getServices');
 });
 
 
 client.on('info', (data) => {
   console.log(data);
-})
+});
+
+client.on('servicies', (data) => {
+  for (let d in data) {
+    projectModel.createExternalProject(data[d], (err, data) => {
+      if (err)
+        console.log(err)
+    });
+  }
+});
 
 module.exports = (router) => {
   console.log('yo');
@@ -135,13 +145,13 @@ module.exports = (router) => {
         date: 1491697544976
       }]
     };
-    console.log(testObjectTMP);
     projectModel.createProject(testObjectTMP, (data) => {
       let d = data.toObject();
       d.resources.forEach((r) => {
         r.type = r.typeR;
       });
-      updateService();      res.send("test instert");
+      updateService();      
+      res.send("test instert");
     });
   });
 
@@ -225,7 +235,7 @@ function updateService() {
       for(let iData in data) {
         let da = data[iData].toObject();
         console.log(da);
-        da.__v = undefined;
+        delete(da.__v);
         for(let i in da.resources){
           console.log("===========================================");
           da.resources[i].type = da.resources[i].typeR;
