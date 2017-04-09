@@ -18,8 +18,8 @@ const projectSchema = mongoose.model('Projects', {
   },
 
   workingHours: {
-    start: Date,
-    end: Date
+    start: Number,
+    end: Number
   },
 
   task: [{
@@ -28,13 +28,16 @@ const projectSchema = mongoose.model('Projects', {
     desc: String,
     percentageProgress: Number,
     linkedTask: Array,
-    ressources: Array
+    ressources: Array,
+    start : Number,
+    end : Number,
+    color: String
   }],
 
   groupTask: [{
     name: String,
-    start: Date,
-    end: Date
+    start: Number,
+    end: Number
   }],
 
   resources: [{
@@ -45,7 +48,7 @@ const projectSchema = mongoose.model('Projects', {
 
   milestones: [{
     name: String,
-    date: Date
+    date: Number
   }]
 
 });
@@ -56,7 +59,7 @@ let exp = () => {};
 exp.createProject = (pro, callback) => {
   let tmp = new projectSchema(pro);
     console.log("youhou");
-  tmp.save((err) => {
+  tmp.save((err, data) => {
     console.log("youhou");
     if (err){
       console.log("error");
@@ -64,14 +67,14 @@ exp.createProject = (pro, callback) => {
     }
     else{
       console.log("yo");
-      callback("flex");
+      callback(data);
     }
   });
 }
 
 exp.createExternalProject = (pro, callback) => {
   for (let p in pro.projects) {
-    p.serviceName = pro.serviceName;
+    p.nameService = pro.nameService;
     let ps = new projectSchema(p);
     ps.save((err, data) => {
       if (err)
@@ -93,14 +96,14 @@ exp.getAllProjects = (callback) => {
 
 exp.getAllProjectsByService = (service, callback) => {
   projectSchema.find({
-    serviceName: service
+    nameService: service
   }, {
-    serviceName: false
+    nameService: false
   }, (err, data) => {
     if (err)
       console.log(err);
     else
-      callback(data);
+      callback(err,data);
   });
 };
 
@@ -131,9 +134,7 @@ exp.getAllMyProjects = (n, callback) => {
 }
 
 exp.getProjectById = (id, callback) => {
-  projectSchema.findById(id, {
-    serviceName: false
-  }, (err, data) => {
+  projectSchema.findById(id, (err, data) => {
     if (err)
       console.log(err);
     else
