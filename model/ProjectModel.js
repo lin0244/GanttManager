@@ -74,8 +74,9 @@ exp.createProject = (pro, callback) => {
 
 exp.createExternalProject = (pro, callback) => {
   for (let p in pro.projects) {
-    p.nameService = pro.nameService;
-    let ps = new projectSchema(p);
+    let temp=pro.projects[p];
+    temp.nameService = pro.nameService;
+    let ps = new projectSchema(temp);
     ps.save((err, data) => {
       if (err)
         console.log(err);
