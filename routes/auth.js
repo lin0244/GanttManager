@@ -78,10 +78,10 @@ router.post('/disconnect', (req,res) => {
 router.post('/register', (req, res, next) => {
   var user = new userModel();
 
-  user.username = req.body.params.username;
-  user.email = req.body.params.email;
+  user.username = req.body.username;
+  user.email = req.body.email;
 
-  user.setPassword(req.body.params.password);
+  user.setPassword(req.body.password);
   
   user.save(function (err) {
      if(err) {

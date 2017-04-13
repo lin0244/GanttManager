@@ -6,14 +6,8 @@
             li.active
                 a(href='/')
                     span Accueil
-            li
+            li(ng-show="AuthService.getAuth()")
                 a Projets
                 ul.submenu(ng-repeat="project in allProjectsName")
                     li
                         a(href="/project/{{project._id}}") {{project.name}}
-            li
-                a(href='#')
-                    span Utilisateur
-            li
-                a(href='#')
-                    span Déconnexion

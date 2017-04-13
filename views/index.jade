@@ -1,5 +1,7 @@
 extends layout
 
+block navbar
+    include menu/navbar
 block menu
     include menu/index
 block content
@@ -16,9 +18,7 @@ block content
                     .row
                         .col-md-12.well
                             .col-md-6
-                                p
-                                    include login/login
+                                pgit
                             .col-md-6
                                 p
-                                    include login/register
                     

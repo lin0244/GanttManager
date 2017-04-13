@@ -165,13 +165,17 @@ module.exports = (router) => {
   });
 
   /* GET projects listing. */
-  /*
-    router.get('/project/:id', function(req, res, next) {
-      projectModel.getProjectById(req.params.id, (data) => {
-        res.render('project/index', {
-          project: data
-        });
+  router.get('/project/:id', function(req, res, next) {
+    projectModel.getProjectById(req.params.id, (data) => {
+      res.render('project/index', {
+        project: data
       });
+    });
+  });
+  
+  /*router.get('/project/:name', function(req, res) {
+      var name = req.params.name;
+      res.render('project/' + name);
     });*/
 
   router.get('/project/info/:id', function(req, res, next) {

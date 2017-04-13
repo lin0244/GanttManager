@@ -6,17 +6,18 @@
  * - Register : Création d'un utilisateur
  * - Disconnect : Déconnexion d'un utilisateur
  */
-angular.module("app").controller("loginController", function ($scope, $http, $cookies) {
+angular.module("app").controller("loginController", function ($scope, $http, $cookies, AuthService) {
     
-    $scope.isAuth = false;
+    $scope.AuthService = AuthService;
+    AuthService.setAuth(false);
 
-    let urlBase = window.location.href;
-    urlBase = urlBase.split('#')[0];
-    alert(urlBase);
+    let urlBase = 'https://' + window.location.host + '/';
+
     //On vérifie au début de l'application, si la personne possède un Token de Session dans ses Cookies.
     //Si il possède un Token, c'est qu'il s'est connecté durant la période de validité de sa Session.
-    if($cookies['tokenSession'] != null) {
-         $scope.isAuth = true;
+    if($cookies['tokenSession'] != null && $cookies['tokenSession'] != 'DisconnectAuth') {
+        console.log($cookies['tokenSession']);
+         AuthService.setAuth(true);
     }
     
     //Méthode pour envoyer la requête d'authentification au serveur
@@ -27,8 +28,8 @@ angular.module("app").controller("loginController", function ($scope, $http, $co
             'username' : $scope.username,
             'password': $scope.password
         };
-    
-        alert(urlBase);
+        
+        console.log(urlBase);
     
         $http.post(urlBase + 'login/auth',auth).then(function successCallback(response) 
         {
@@ -42,7 +43,7 @@ angular.module("app").controller("loginController", function ($scope, $http, $co
             $cookies.put('username' , $scope.username, {'expires': expireDate});
             $cookies.put('tokenSession' , response.data, {'expires': expireDate});
             
-            $scope.isAuth = true;
+            AuthService.setAuth(true);
         }, errorCallback);
         
         function errorCallback () 
@@ -62,7 +63,7 @@ angular.module("app").controller("loginController", function ($scope, $http, $co
         };
     
         //Envoie de la requête    
-        $http.post(window.location.href + 'login/register', user).then(function successCallback(response) 
+        $http.post(urlBase + 'login/register', user).then(function successCallback(response) 
         {
 
         }, errorCallback);
@@ -78,15 +79,20 @@ angular.module("app").controller("loginController", function ($scope, $http, $co
     //Méthode pour envoyer la requête de deconnexion
     $scope.submitDisconnect = () => 
     {
-        //Envoie de la requête    
-        $http.post(window.location.href + 'login/disconnect', $cookies['username']).then(function successCallback(response) 
-        {
-            //On enlève les cookies du site côté client.
-            $cookies.remove('username');
-            $cookies.remove('tokenSession');
-            $scope.isAuth = false;
-        }, errorCallback);
+        if($cookies['username'] != null) {
+            
+            //Envoie de la requête    
+            $http.post(window.location.href + 'login/disconnect', $cookies['username']).then(function successCallback(response) 
+            {
+                //On enlève les cookies du site côté client.
+                $cookies.put('tokenSession' , 'DisconnectAuth');
+                AuthService.setAuth(false);
+            }, errorCallback);
     
+        } else {
+            $cookies.put('tokenSession' , 'DisconnectAuth');
+            AuthService.setAuth(false);
+        }
         //Methode si jamais erreur
         function errorCallback () 
         {
