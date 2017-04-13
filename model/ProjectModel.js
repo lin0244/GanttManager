@@ -99,8 +99,13 @@ exp.getAllProjectsByService = (service, callback) => {
   projectSchema.find({
     nameService: service
   }, {
-    nameService: false
-  }, (err, data) => {
+    _id: false,
+    nameService: false,
+    "milestones._id" : false,
+    "resources._id" : false,
+    "task._id" : false,
+    "groupTask._id" : false
+}, (err, data) => {
     if (err)
       console.log(err);
     else

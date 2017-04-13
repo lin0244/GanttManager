@@ -64,8 +64,8 @@ module.exports = (router) => {
   router.get('/project/test', function(req, res, next) {
     var testObjectTMP = {
       nameService: serviceName,
-      name: "projet de test",
-      desc: "Description du projet, blablabla...",
+      name: "projet de test2",
+      desc: "Description du projet2, blablabla...",
       daysOff: {
         Mo: true,
         Tu: true,
@@ -180,6 +180,11 @@ module.exports = (router) => {
     });
   });
   
+  router.get('/project/delete', function(req, res, next) {
+    deleteService();
+    res.send("delete");
+  });
+  
   router.get('/project/:name', function(req, res) {
     var name = req.params.name;
     res.render('project/' + name);
@@ -242,10 +247,14 @@ function updateService() {
         toSend.projects.push(da);
       }
       
-      console.log(toSend);
+      console.log(JSON.stringify(toSend));
       client.emit('sendUpdate', toSend);
     }
   });
+}
+
+function deleteService(){
+  client.emit('deleteService',serviceName);
 }
 
 client.on('errorOnProjectUpdate', (data) => {
@@ -254,9 +263,10 @@ client.on('errorOnProjectUpdate', (data) => {
 
 client.on('projectUpdated', (data) => {
   for (let d in data) {
-    projectModel.createExternalProject(data[d].toObject(), (err, data) => {
-      if (err)
-        console.log(err)
-    });
+    if (data[d].nameService != serviceName)
+      projectModel.createExternalProject(data[d], (err, data) => {
+        if (err)
+          console.log(err)
+      });
   }
 });
